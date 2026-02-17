@@ -2,14 +2,14 @@
 $fa = 1;
 $fs = 0.1;
 
-dowel_radius=20;
-panel_radius=40;
+dowel_radius=22.6/2;
+panel_radius=70;
 wall_thickness=5;
 panel_thickness=5;
 num_holes=8;
 fitting_depth=20;
-hole_radius=2;
-hole_inset_dist=5;
+hole_radius=3;
+hole_inset_dist=8;
 
 module pipe_fitting(){
     difference() {
@@ -31,11 +31,25 @@ module panel() {
     }
 }
 
+module skirt() {
+    rotate_extrude()
+    translate([dowel_radius+wall_thickness-0.001,0])
+    difference() {
+        square(5);
+        translate([9,9])
+        circle(10);
+    }
+}
+
 module table_joint(){
     panel();
     translate([0,0,panel_thickness-0.001])
     pipe_fitting();
+    translate([0,0,panel_thickness-0.001])
+    skirt();
 }
 
 table_joint();
 //panel();
+//pipe_fitting();
+//skirt();
